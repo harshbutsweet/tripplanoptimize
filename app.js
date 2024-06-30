@@ -286,21 +286,3 @@ function deleteDestination(index) {
     }
 }
 
-function updateDestinationList() {
-    const list = document.getElementById('destination-list');
-    list.innerHTML = '';
-    destinations.forEach((dest, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span class="drag-handle">☰</span>
-            <span>${index + 1}. ${dest}</span>
-            <button class="delete-btn" onclick="deleteDestination(${index})">Delete</button>
-        `;
-        li.draggable = true;
-        li.dataset.index = index;
-        li.addEventListener('dragstart', handleDragStart);
-        li.addEventListener('dragover', handleDragOver);
-        li.addEventListener('drop', handleDrop);
-        list.appendChild(li);
-    });
-}
