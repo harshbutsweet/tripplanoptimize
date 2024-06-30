@@ -159,7 +159,7 @@ function displayOptimizedRoute(route) {
     const polylineOptions = {
         path: route.map(index => destinationCoords[index]),
         geodesic: true,
-        strokeColor: '#FFA500', // Changed to orange
+        strokeColor: '#0000FF', // Changed to orange
         strokeOpacity: 1.0,
         strokeWeight: 2,
         icons: [{
