@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Optimizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Trip Optimizer</h1>
+        <div id="map" style="height: 400px; width: 100%;"></div>
+        <div id="controls">
+            <input type="text" id="destination-input" placeholder="Enter a destination">
+            <button id="add-destination">Add Destination</button>
+            <div id="optimization-options">
+                <input type="radio" id="optimize-distance" name="optimize" value="distance" checked>
+                <label for="optimize-distance">Optimize for Distance</label>
+                <input type="radio" id="optimize-time" name="optimize" value="time">
+                <label for="optimize-time">Optimize for Time</label>
+            </div>
+            <button id="optimize-route">Optimize Route</button>
+            <button id="reset-route">Reset Route</button>
+        </div>
+        <ul id="destination-list" class="sortable-list"></ul>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UOltgpYAwq_HQmSsIyb0cgL_gExItfs&libraries=places&callback=initMap" async defer></script>
+    <script src="app.js"></script>
+</body>
+</html>
