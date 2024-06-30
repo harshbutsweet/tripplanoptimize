@@ -6,25 +6,29 @@ let destinationCoords = [];
 let fixedDestinations = new Set();
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 0, lng: 0},
-        zoom: 2
-    });
+    try {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 0, lng: 0},
+            zoom: 2
+        });
 
-    const input = document.getElementById('destination-input');
-    autocomplete = new google.maps.places.Autocomplete(input);
+        const input = document.getElementById('destination-input');
+        autocomplete = new google.maps.places.Autocomplete(input);
 
-    document.getElementById('add-destination').addEventListener('click', () => {
-        addDestination();
-        updateDestinationList();
-    });
-    document.getElementById('optimize-route').addEventListener('click', () => optimizeRoute());
-    document.getElementById('reset-route').addEventListener('click', () => {
-        resetRoute();
-        updateDestinationList();
-    });
+        document.getElementById('add-destination').addEventListener('click', () => {
+            addDestination();
+            updateDestinationList();
+        });
+        document.getElementById('optimize-route').addEventListener('click', () => optimizeRoute());
+        document.getElementById('reset-route').addEventListener('click', () => {
+            resetRoute();
+            updateDestinationList();
+        });
 
-    console.log("Map initialized");
+        console.log("Map initialized");
+    } catch (error) {
+        console.error("Error initializing map:", error);
+    }
 }
 
 function addDestination() {
@@ -159,7 +163,7 @@ function displayOptimizedRoute(route) {
     const polylineOptions = {
         path: route.map(index => destinationCoords[index]),
         geodesic: true,
-        strokeColor: '#0000FF', // Changed to orange
+        strokeColor: '#0000FF', // Blue color
         strokeOpacity: 1.0,
         strokeWeight: 2,
         icons: [{
@@ -200,6 +204,7 @@ function updateDestinationList(route) {
             <span class="drag-handle">☰</span>
             <input type="checkbox" id="fix-${index}" ${fixedDestinations.has(index) ? 'checked' : ''}>
             <label for="fix-${index}">${i + 1}. ${destinations[index]}</label>
+            <button class="delete-btn" onclick="deleteDestination(${index})">Delete</button>
         `;
         li.draggable = true;
         li.dataset.index = index;
@@ -273,16 +278,17 @@ function handleDrop(e) {
         }
     }
 }
+
 function deleteDestination(index) {
     destinations.splice(index, 1);
     destinationCoords.splice(index, 1);
-    updateDestinationList();
     if (markers[index]) {
         markers[index].setMap(null);
     }
     markers.splice(index, 1);
+    fixedDestinations.clear();
+    updateDestinationList();
     if (window.currentPolyline) {
         displayOptimizedRoute(destinations.map((_, i) => i));
     }
 }
-
